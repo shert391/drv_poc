@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="sourse">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{702ffed3-8fe5-422e-82c1-1253ef71db30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="config.h" />
+    <ClCompile Include="sourse\dse_killer.cpp">
+      <Filter>sourse</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\main.cpp">
+      <Filter>sourse</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\utils\rtcore_binary.h">
+      <Filter>utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sourse\utils\utils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\dse_killer.h">
+      <Filter>sourse</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
