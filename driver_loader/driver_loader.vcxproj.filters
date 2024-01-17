@@ -17,8 +17,17 @@
     <ClCompile Include="sourse\main.cpp">
       <Filter>sourse</Filter>
     </ClCompile>
-    <ClCompile Include="sourse\utils\rtcore_binary.h">
+    <ClCompile Include="sourse\rtcore_binary.h">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\utils\utils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\utils\scanner.cpp">
+      <Filter>sourse</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\rtcore.cpp">
+      <Filter>sourse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +36,21 @@
     </ClInclude>
     <ClInclude Include="sourse\dse_killer.h">
       <Filter>sourse</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\utils\ntstatus.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\utils\scanner.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\rtcore.h">
+      <Filter>sourse</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\utils\ntdll.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="sourse\utils\debug.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

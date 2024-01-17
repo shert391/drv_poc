@@ -1,29 +1,20 @@
 #pragma once
+#include "sourse/utils/ntstatus.h"
+#include "sourse/utils/debug.h"
+#include <filesystem>
 #include <windows.h>
 #include <string>
 #include <random>
 
+#define SeLoadDriverPrivilege 0xa
+
 using namespace std;
+using namespace std::filesystem;
 
-wstring random_string(size_t length) {
-    const std::wstring CHARACTERS = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+wstring random_string(size_t length);
 
-    random_device random_device;
-    mt19937 generator(random_device());
-    uniform_int_distribution<> distribution(0, CHARACTERS.size() - 1);
+void unload_driver(path drvPath);
+void load_driver(path drvPath);
 
-    std::wstring random_string;
-
-    for (std::size_t i = 0; i < length; ++i)
-        random_string += CHARACTERS[distribution(generator)];
-
-    return random_string;
-}
-
-wstring get_system32_path() {
-    wchar_t szSystem32Directory[MAX_PATH]{ 0 };
-
-    GetSystemDirectory(szSystem32Directory, sizeof(szSystem32Directory));
-
-    return wstring(szSystem32Directory) + L"\\";
-}
+path get_system32_drivers_path();
+path get_drivers_storage_path();
