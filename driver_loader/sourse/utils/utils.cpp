@@ -53,8 +53,8 @@ void unload_driver(path drvPath) {
     path scmDataBaseKey = "SYSTEM\\CurrentControlSet\\Services\\" / drvPath.filename().replace_extension();
 
     UNICODE_STRING unicodeKey{ 0 };
-    scmDataBaseKey = "\\Registry\\Machine" / scmDataBaseKey;
-    RtlInitUnicodeString(&unicodeKey, (PWSTR)scmDataBaseKey.c_str());
+    path scmDataBaseKeyEx = "\\Registry\\Machine" / scmDataBaseKey;
+    RtlInitUnicodeString(&unicodeKey, (PWSTR)scmDataBaseKeyEx.c_str());
 
     BOOLEAN oldValue{ 0 };
     RtlAdjustPrivilege(SeLoadDriverPrivilege, true, false, &oldValue);
@@ -62,7 +62,8 @@ void unload_driver(path drvPath) {
     LogSuccess("The %ls driver unloaded!", drvPath.filename().c_str());
 
     RegDeleteKey(HKEY_LOCAL_MACHINE, scmDataBaseKey.c_str());
-    DebugLog("Regedit SCM driver key clear!", 0);
+
+    DebugLog("Regedit SCM driver key clear: HKEY_LOCAL_MACHINE\\%ls", scmDataBaseKey.c_str());
 }
 
 path get_system32_drivers_path() {

@@ -16,6 +16,7 @@ void dse_killer::load_unsigned_driver(path driverPath)
 	load_driver(driverPath);
 	rtcore::write_vm(pg_CiOptions_kernel, oldValue, 1);
 	rtcore::release();
+	unload_driver(driverPath);
 }
 
 uintptr_t dse_killer::get_ci_image_base_in_kernel()
