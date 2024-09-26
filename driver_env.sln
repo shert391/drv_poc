@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "driver_loader", "driver_loa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "driver_test", "driver_test\driver_test.vcxproj", "{20ACFE59-81D8-46BA-8F14-18B27207AC2B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "console", "console\console.vcxproj", "{D179FD27-E671-4C67-953B-E6E49A31E8A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -47,6 +49,18 @@ Global
 		{20ACFE59-81D8-46BA-8F14-18B27207AC2B}.Release|x86.ActiveCfg = Release|x64
 		{20ACFE59-81D8-46BA-8F14-18B27207AC2B}.Release|x86.Build.0 = Release|x64
 		{20ACFE59-81D8-46BA-8F14-18B27207AC2B}.Release|x86.Deploy.0 = Release|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|ARM64.ActiveCfg = Debug|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|ARM64.Build.0 = Debug|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|x64.ActiveCfg = Debug|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|x64.Build.0 = Debug|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|x86.ActiveCfg = Debug|Win32
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Debug|x86.Build.0 = Debug|Win32
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|ARM64.ActiveCfg = Release|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|ARM64.Build.0 = Release|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|x64.ActiveCfg = Release|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|x64.Build.0 = Release|x64
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|x86.ActiveCfg = Release|Win32
+		{D179FD27-E671-4C67-953B-E6E49A31E8A0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

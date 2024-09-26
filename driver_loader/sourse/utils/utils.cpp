@@ -72,8 +72,8 @@ path get_system32_drivers_path() {
     return path(szSystem32Directory) / L"drivers";
 }
 
-path get_drivers_storage_path() {
-    wchar_t szSystem32Directory[MAX_PATH]{};
-    GetCurrentDirectory(MAX_PATH, szSystem32Directory);
-    return path(szSystem32Directory);
+path get_current_directory() {
+    wchar_t szCurrentDirectory[MAX_PATH]{};
+    GetCurrentDirectory(MAX_PATH, szCurrentDirectory);
+    return path(szCurrentDirectory);
 }

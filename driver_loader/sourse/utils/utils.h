@@ -8,6 +8,10 @@
 
 #define SeLoadDriverPrivilege 0xa
 
+#define _pathToStrA(pathIn, out) \
+	string buff = (pathIn).string(); \
+	out = buff.c_str();
+
 using namespace std;
 using namespace std::filesystem;
 
@@ -17,4 +21,4 @@ void unload_driver(path drvPath);
 void load_driver(path drvPath);
 
 path get_system32_drivers_path();
-path get_drivers_storage_path();
+path get_current_directory();
