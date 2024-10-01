@@ -28,7 +28,7 @@ void load_driver(path drvPath)
     wstring objPath = L"\\??\\" + drvPath.wstring();
     RegSetValueEx(hKey, szImagePath, 0, REG_EXPAND_SZ, (PBYTE)objPath.c_str(), wcslen(objPath.c_str()) * sizeof(wchar_t) + 2);
 
-    DebugLog("Regedit SCM driver key is configured: HKEY_LOCAL_MACHINE\\%ls", scmDataBaseKey.c_str());
+    DebugLog("Regedit Service Data Base driver key is configured: HKEY_LOCAL_MACHINE\\%ls", scmDataBaseKey.c_str());
     RegCloseKey(hKey);
 
     UNICODE_STRING unicodeKey{ 0 };
@@ -63,7 +63,7 @@ void unload_driver(path drvPath) {
 
     RegDeleteKey(HKEY_LOCAL_MACHINE, scmDataBaseKey.c_str());
 
-    DebugLog("Regedit SCM driver key clear: HKEY_LOCAL_MACHINE\\%ls", scmDataBaseKey.c_str());
+    DebugLog("Regedit Service Data Base driver key clear: HKEY_LOCAL_MACHINE\\%ls", scmDataBaseKey.c_str());
 }
 
 path get_system32_drivers_path() {

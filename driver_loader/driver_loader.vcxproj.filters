@@ -32,6 +32,12 @@
     <ClCompile Include="sourse\provider.cpp">
       <Filter>sourse</Filter>
     </ClCompile>
+    <ClCompile Include="sourse\providers\ntiomsi\ntiomsi_binary.h">
+      <Filter>sourse</Filter>
+    </ClCompile>
+    <ClCompile Include="sourse\providers\ntiomsi\ntiomsi.cpp">
+      <Filter>sourse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sourse\utils\utils.h">
@@ -56,5 +62,7 @@
       <Filter>sourse</Filter>
     </ClInclude>
     <ClInclude Include="sourse\provider.h" />
+    <ClInclude Include="sourse\providers\ntiomsi\ntiomsi.h" />
+    <ClInclude Include="sourse\utils\nt.h" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@
 #include "config.h"
 
 #define RTCORE_PROVIDER_DRIVER_NAME "RTCore64.sys"
-#define RTCORE_PROVIDER_OBJECT_NAME "RtCore64"
+#define RTCORE_PROVIDER_SYMBOLIC_OBJECT_NAME "RtCore64"
 
 #define IOCTL_WRITE CTL_CODE(0x8000, 0x813, METHOD_BUFFERED, FILE_ANY_ACCESS) // 0x8000204C
 #define IOCTL_READ CTL_CODE(0x8000, 0x812, METHOD_BUFFERED, FILE_ANY_ACCESS) // 0x80002048
@@ -25,8 +25,8 @@ struct read_write_request {
 
 class rtcore : public provider {
 public:
-	rtcore() : provider(RTCORE_PROVIDER_OBJECT_NAME, RTCORE_PROVIDER_DRIVER_NAME, binary_data { sizeof(g_aRtCoreSysBinary), g_aRtCoreSysBinary }) {}
+	rtcore() : provider(RTCORE_PROVIDER_SYMBOLIC_OBJECT_NAME, RTCORE_PROVIDER_DRIVER_NAME, binary_data { sizeof(g_aRtCoreSysBinary), g_aRtCoreSysBinary }) {}
 
-	void read_kernel_memory(uintptr_t pAddress, OUT PDWORD pOut, size_t size) override;
-	void write_kernel_memory(uintptr_t pAddress, DWORD value, size_t size, OUT PDWORD pOldValue = nullptr) override;
+	void read_kernel_virtualmemory(uintptr_t pAddress, size_t size, OUT PVOID pOut) override;
+	void write_kernel_virtualmemory(uintptr_t pAddress, PVOID pWriteData, size_t size, OUT PVOID pOldData = nullptr) override;
 };

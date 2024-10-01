@@ -1,6 +1,6 @@
 #include "rtcore.h"
 
-void rtcore::read_kernel_memory(uintptr_t pAddress, OUT PDWORD pOut, size_t size)
+void rtcore::read_kernel_virtualmemory(uintptr_t pAddress, size_t size, OUT PVOID pOut)
 {
 	read_write_request request{ 0 };
 	request.pAddress = pAddress;
@@ -18,21 +18,19 @@ void rtcore::read_kernel_memory(uintptr_t pAddress, OUT PDWORD pOut, size_t size
 		LogError("RtCore read_vm fail!");
 	}
 
-	*pOut = request.Data;
-
-	LogSuccess("RtCore successfully read_vm 0x%X from 0x%p", request.Data, (PVOID)pAddress);
+	memcpy(pOut, &request.Data, size);
 }
 
-void rtcore::write_kernel_memory(uintptr_t pAddress, DWORD value, size_t size, OUT PDWORD pOldValue)
+void rtcore::write_kernel_virtualmemory(uintptr_t pAddress, PVOID pWriteData, size_t size, OUT PVOID pOldData)
 {
-	if (pOldValue)
-		read_kernel_memory(pAddress, pOldValue, size);
+	if (pOldData)
+		read_kernel_virtualmemory(pAddress, size, pOldData);
 
 	read_write_request request{ 0 };
 	request.pAddress = pAddress;
-	request.Data = value;
 	request.Size = size;
 	request.Offset = 0;
+	memcpy(&request.Data, pWriteData, size);
 
 	if (!DeviceIoControl(HProviderDriver,
 		IOCTL_WRITE,
@@ -44,6 +42,4 @@ void rtcore::write_kernel_memory(uintptr_t pAddress, DWORD value, size_t size, O
 		nullptr)) {
 		LogError("RtCore write_vm fail!");
 	}
-
-	LogSuccess("RtCore successfully write_vm 0x%X in 0x%p", value, (PVOID)pAddress);
 }

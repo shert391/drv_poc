@@ -59,13 +59,18 @@
 #pragma region Debug
 #ifdef _DEBUG
 #define DebugLog(message, ...) \
-		printf("[~] "##message##"\n", __VA_ARGS__)								 
+		printf("[D] "##message##"\n", __VA_ARGS__)								 
 #else
 #define DebugLog(message, ...)
 #endif
 #pragma endregion
 
 #pragma region Loging
+#define PrintLastError \
+		FormatGetLastError \
+		PrintError("GetLastError is %#x => %ls", code, error) \
+		DbgBreakPoint();
+
 #define LogError(...) \
 		{ PrintError(__VA_ARGS__) \
 		DbgBreakPoint(); }

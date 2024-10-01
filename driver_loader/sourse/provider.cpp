@@ -32,6 +32,8 @@ void provider::init() {
 								  OPEN_EXISTING,
 								  0,
 								  0);
+	CheckHandle(HProviderDriver);
+	LogSuccess("Provider selected %s", SzProviderDriverFileName);
 }
 
 void provider::release()

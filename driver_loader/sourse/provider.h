@@ -11,16 +11,16 @@ public:
 
 class provider {
 public:
-	void init();
 	void release();
+	virtual void init();
 
-	virtual void read_kernel_memory(uintptr_t pAddress, OUT PDWORD pOut, size_t size) = 0;
-	virtual void write_kernel_memory(uintptr_t pAddress, DWORD value, size_t size, OUT PDWORD pOldValue = nullptr) = 0;
+	virtual void read_kernel_virtualmemory(uintptr_t pAddress, size_t size, OUT PVOID pOut) = 0;
+	virtual void write_kernel_virtualmemory(uintptr_t pAddress, PVOID pWriteData, size_t size, OUT PVOID pOldData = nullptr) = 0;
 
 protected:
-	provider(PCSTR szDeviceObjectName, PCSTR szProviderDriverFileName, binary_data binaryData) {
+	provider(PCSTR szSymbolicObjectName, PCSTR szProviderDriverFileName, binary_data binaryData) {
 		BinaryData = binaryData;
-		SzDeviceObjectName = szDeviceObjectName;
+		SzDeviceObjectName = szSymbolicObjectName;
 		SzProviderDriverFileName = szProviderDriverFileName;
 		SzProviderDriverFilePath = (get_current_directory() / SzProviderDriverFileName).string().c_str();
 	}
